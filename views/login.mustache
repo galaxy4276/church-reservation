@@ -8,12 +8,6 @@
   <title>로그인해주세요</title>
 </head>
 <body>
-  <button id="login">카카오 로그인 수행</button>
-  <script>
-    document.querySelector('#login')
-      .addEventListener('click', () => {
-        window.open('https://kauth.kakao.com/oauth/authorize');
-      });
-  </script>
+  <button id="login" onclick="window.open(`https://kauth.kakao.com/oauth/authorize?client_id={{client_id}}&redirect_uri={{redirect_uri}}&response_type=code&scope=friends,account_email,profile_image,talk_message,profile_nickname`)">카카오 로그인 수행</button>
 </body>
 </html>

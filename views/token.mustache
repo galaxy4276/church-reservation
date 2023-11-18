@@ -5,9 +5,52 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>토큰 확인</title>
 </head>
-<body>
-  
-</body>
+  <body>
+    <p data-name="grant_type" data-value={{grant_type}}>grant type: {{grant_type}}</p>
+    <p data-name="client_id" data-value={{client_id}}>client_id: {{client_id}}</p>
+    <p data-name="redirect_uri" data-value={{redirect_uri}}>redirect_uri: {{redirect_uri}}</p>
+    <p data-name="code" data-value={{code}}>code: {{code}}</p>
+    <p data-name="client_secret" data-value={{client_secret}}>client_secret: {{client_secret}}</p>
+  </body>
+<script>
+  window.addEventListener('load', async () => {
+    const body = {
+      grant_type: '',
+      client_id: '',
+      redirect_uri: '',
+      code: '',
+      client_secret: '',
+    };
+
+    const pList = Array.from(document.getElementsByTagName('p'));
+
+    pList.forEach(p => {
+      const name = p.getAttribute('data-name');
+      body[name] = p.getAttribute('data-value');
+    });
+
+    console.log({ body });
+
+    const data = await fetch('https://kauth.kakao.com/oauth/token', {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    }).then(data => {
+      console.log({ data });
+      return data.json();
+    });
+
+    const result = data;
+    console.log({ result });
+
+    fetch('/token/recieve', {
+      method: 'POST',
+      body: result,
+    });
+  });
+</script>
 </html>
